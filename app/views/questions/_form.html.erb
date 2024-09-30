@@ -1,0 +1,36 @@
+<%= form_with(model: question) do |form| %>
+  <% if question.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+      <ul>
+        <% question.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :content, style: "display: block" %>
+    <%= form.text_area :content %>
+  </div> 
+
+  <%= form_with(model: @question) do |f| %>
+    <div class="form-group">
+      <%= f.label :question_type, "Question Type" %>
+      <%= f.select :question_type, options_for_select(Question.question_types.map { |key, value| [key.humanize, key] }), { include_blank: 'Select Question Type' }, class: 'form-control' %>
+    </div>
+
+    <%= f.submit "Create Question", class: "btn btn-primary" %>
+  <% end %>
+
+  <div>
+    <%= form.label :survey_id, style: "display: block" %>
+    <%= form.text_field :survey_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
